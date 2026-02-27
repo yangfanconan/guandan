@@ -99,6 +99,8 @@ const CardUI = (function() {
         ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
         ctx.lineTo(x + r, y + h);
         ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
         ctx.closePath();
     }
 
@@ -332,8 +334,13 @@ const CardUI = (function() {
         ctx.fillRect(0, 0, container.clientWidth, container.clientHeight);
 
         ctx.beginPath();
-        ctx.ellipse(container.clientWidth/2, container.clientHeight/2, 
-                   container.clientWidth*0.35, container.clientHeight*0.3, 0, Math.PI*2);
+        ctx.ellipse(
+            container.clientWidth / 2, 
+            container.clientHeight / 2, 
+            container.clientWidth * 0.35, 
+            container.clientHeight * 0.3, 
+            0, 0, Math.PI * 2
+        );
         ctx.fillStyle = 'rgba(0,0,0,0.15)';
         ctx.fill();
         ctx.strokeStyle = theme.tableBorder;
@@ -369,6 +376,44 @@ const CardUI = (function() {
         return -1;
     }
 
+    function drawPassText(position) {
+        const container = canvas.parentElement;
+        const theme = getThemeConfig();
+        let x, y;
+
+        switch (position) {
+            case 'bottom':
+                x = container.clientWidth / 2;
+                y = container.clientHeight - cardHeight - 80;
+                break;
+            case 'left':
+                x = 100;
+                y = container.clientHeight / 2;
+                break;
+            case 'top':
+                x = container.clientWidth / 2;
+                y = 100;
+                break;
+            case 'right':
+                x = container.clientWidth - 100;
+                y = container.clientHeight / 2;
+                break;
+        }
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.beginPath();
+        ctx.arc(x, y, 30, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('不出', x, y);
+        ctx.restore();
+    }
+
     return {
         init,        resize,
         setTheme,
@@ -383,6 +428,7 @@ const CardUI = (function() {
         drawTable,
         clear,
         getClickedCardIndex,
+        drawPassText,
         get cardWidth() { return cardWidth; },
         get cardHeight() { return cardHeight; }
     };

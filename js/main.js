@@ -26,7 +26,8 @@
     let settings = {
         theme: 'jianghuai',
         soundEnabled: true,
-        nanDu: 2
+        nanDu: 2,
+        jiPai: 2
     };
 
     function init() {
@@ -110,6 +111,7 @@
             currentChuPaiZhe: TeamLogic.WEI_ZHI.NAN,
             shangJiaChuPai: null,
             shangJiaPaiXing: null,
+            benLunChuPai: { 0: null, 1: null, 2: null, 3: null },
             selectedPai: [],
             zhaDanShu: 0,
             youCiList: [],
@@ -139,6 +141,7 @@
         );
         
         if (result.guo) {
+            gameState.benLunChuPai[playerIndex] = 'pass';
             SoundManager.play('pass');
             showToast(`${TeamLogic.huoQuWeiZhiMingCheng(playerIndex)} 不出`);
             xiaYiGeChuPai();
@@ -153,6 +156,13 @@
         
         const result = TeamLogic.jiSuanJieGuo(gameState.youCiList, gameState.jiPai, gameState.zhaDanShu);
         const won = result.duiWu1HuoSheng;
+        
+        if (won) {
+            settings.jiPai = result.xinJiPai;
+            GameRules.sheZhiJiPai(settings.jiPai);
+            Storage.saveSettings(settings);
+        }
+        
         const stats = Storage.updateStats(won, result.shengJiShu, gameState.zhaDanShu);
         
         setTimeout(() => {
@@ -171,15 +181,18 @@
             }
             
             if (infoEl) {
+                const jiPaiName = GameRules.huoQuJiPaiMingCheng(result.xinJiPai);
                 infoEl.innerHTML = `
                     头游: ${TeamLogic.huoQuWeiZhiMingCheng(result.touYou)}<br>
-                    升级: ${result.shengJiShu}级<br>
+                    升级: +${result.shengJiShu}级<br>
+                    当前级别: 打${jiPaiName}<br>
                     炸弹: ${gameState.zhaDanShu}个
                 `;
             }
             
             if (modal) modal.classList.remove('hidden');
             
+            updateSettingsUI();
             updateStatsDisplay(stats);
         }, 500);
     }
@@ -317,10 +330,11 @@
     
     function guoPai() {
         if (gameState.phase !== 'playing' || gameState.currentChuPaiZhe !== TeamLogic.WEI_ZHI.NAN) return;
-        if (!GameRules.keYiGuo(gameState.shangJiaPaiXing)) {
+        if (!gameState.shangJiaPaiXing) {
             showToast('必须出牌');
             return;
         }
+        gameState.benLunChuPai[0] = 'pass';
         SoundManager.play('pass');
         showToast('不出');
         xiaYiGeChuPai();
@@ -355,6 +369,7 @@
         
         gameState.shangJiaChuPai = cards;
         gameState.shangJiaPaiXing = { ...paiXing, chuPaiZhe: playerIndex };
+        gameState.benLunChuPai[playerIndex] = cards;
         gameState.selectedPai = [];
         gameState.passCount = 0;
         
@@ -383,13 +398,29 @@
         gameState.passCount++;
         
         if (gameState.passCount >= 3 && gameState.shangJiaChuPai) {
-            const winner = gameState.shangJiaPaiXing.chuPaiZhe;
-            gameState.currentChuPaiZhe = winner;
+            let winner = gameState.shangJiaPaiXing.chuPaiZhe;
             gameState.shangJiaChuPai = null;
             gameState.shangJiaPaiXing = null;
+            gameState.benLunChuPai = { 0: null, 1: null, 2: null, 3: null };
             gameState.passCount = 0;
+            if (gameState.youCiList.includes(winner)) {
+                let next = (winner + 1) % 4;
+                let count = 0;
+                while (gameState.youCiList.includes(next) && count < 4) {
+                    next = (next + 1) % 4;
+                    count++;
+                }
+                winner = next;
+            }
+            gameState.currentChuPaiZhe = winner;
         } else {
-            gameState.currentChuPaiZhe = (gameState.currentChuPaiZhe + 1) % 4;
+            let next = (gameState.currentChuPaiZhe + 1) % 4;
+            let count = 0;
+            while (gameState.youCiList.includes(next) && count < 4) {
+                next = (next + 1) % 4;
+                count++;
+            }
+            gameState.currentChuPaiZhe = next;
         }
         
         render();
@@ -408,11 +439,21 @@
         CardUI.drawPlayerInfo('北(队友)', gameState.ai2Pai.length, true, 'top', gameState.jiPai);
         CardUI.drawPlayerInfo('东', gameState.ai3Pai.length, false, 'right', gameState.jiPai);
         
-        if (gameState.shangJiaChuPai) {
-            CardUI.drawPlayedCards(gameState.shangJiaChuPai, gameState.shangJiaPaiXing.chuPaiZhe);
+        if (gameState.benLunChuPai) {
+            const posMap = ['bottom', 'left', 'top', 'right'];
+            for (let i = 0; i < 4; i++) {
+                const chuPai = gameState.benLunChuPai[i];
+                if (chuPai === 'pass') {
+                    CardUI.drawPassText(posMap[i]);
+                } else if (chuPai) {
+                    CardUI.drawPlayedCards(chuPai, posMap[i]);
+                }
+            }
         }
         
-        if (gameState.phase === 'playing' && gameState.currentChuPaiZhe === TeamLogic.WEI_ZHI.NAN) {
+        if (gameState.phase === 'playing' && 
+            gameState.currentChuPaiZhe === TeamLogic.WEI_ZHI.NAN && 
+            !gameState.youCiList.includes(0)) {
             CardUI.drawPlayerCards(gameState.wanJiaPai, gameState.selectedPai);
         }
     }

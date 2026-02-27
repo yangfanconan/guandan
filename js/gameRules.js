@@ -141,10 +141,10 @@ const GameRules = (function() {
         const paiZu = xiPai(chuangJianPaiZu());
         
         return {
-            wanJia1Pai: paiZu.slice(0, 27),    // 玩家1（南）
-            wanJia2Pai: paiZu.slice(27, 54),   // 玩家2（西，AI）
-            wanJia3Pai: paiZu.slice(54, 81),   // 玩家3（北，玩家队友）
-            wanJia4Pai: paiZu.slice(81, 108)   // 玩家4（东，AI）
+            wanJia1Pai: paiZu.slice(0, 27),
+            ai1Pai: paiZu.slice(27, 54),
+            ai2Pai: paiZu.slice(54, 81),
+            ai3Pai: paiZu.slice(81, 108)
         };
     }
 
@@ -415,7 +415,7 @@ const GameRules = (function() {
             return { valid: false, reason: '牌型不匹配，无法压过' };
         }
         
-        if (biJiao >= 0) {
+        if (biJiao > 0) {
             return { valid: true, paiXing };
         }
 

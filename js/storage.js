@@ -135,6 +135,7 @@ const Storage = (function() {
             theme: 'jianghuai',
             soundEnabled: true,
             nanDu: 2,
+            jiPai: 2,
             gongPaiEnabled: true
         };
         const saved = load(STORAGE_KEYS.SETTINGS);
