@@ -1,122 +1,251 @@
-# 掼蛋 (Guandan Card Game)
+# 🃏 掼蛋 Guandan
 
-A cross-platform Guandan card game built with HTML5 + JavaScript + CSS3.
+[中文](#中文) | [English](#english)
 
-## 游戏简介 / Introduction
+---
 
-掼蛋是一种流行于中国江苏、安徽等地的扑克牌游戏，由两副扑克牌组成，四人参与，两两结对进行对抗。
+## 中文
 
-Guandan is a popular Chinese card game from Jiangsu and Anhui provinces. It uses two decks of cards with 4 players in teams of 2.
+### 游戏简介
 
-## 特性 / Features
+掼蛋是一种流行于中国江苏、安徽等地的扑克牌游戏，由两副扑克牌组成，四人参与，两两结对进行对抗。本游戏完整实现了掼蛋的核心规则，支持人机对战。
 
-- 完整的掼蛋规则 / Complete Guandan rules
-- 3种AI难度 / 3 AI difficulty levels
-- 双主题（江淮/简约）/ Dual themes (Jianghuai/Simple)
-- 音效支持 / Sound effects
-- 离线游戏 / Offline play
-- 响应式设计 / Responsive design
-- Android APK支持 / Android APK support
+### 游戏截图
 
-## 运行方式 / How to Run
+> 📸 截图位置预留 - 可添加游戏界面截图
 
-### 浏览器运行 / Browser
+### 功能特性
 
+- ✅ **完整规则** - 支持所有掼蛋牌型（单张、对子、三张、顺子、连对、飞机、炸弹、同花顺、火箭等）
+- ✅ **升级系统** - 胜利后自动升级，支持双下3级、单下2级、平打1级
+- ✅ **AI对战** - 3种难度（简单/中等/困难），AI具有团队配合逻辑
+- ✅ **双主题** - 江淮风格 + 简约风格
+- ✅ **音效** - Web Audio API 生成的音效
+- ✅ **响应式** - 适配手机和桌面浏览器
+- ✅ **离线** - 无需联网，本地运行
+- ✅ **跨平台** - 支持 Web 和 Android
+
+### 运行方式
+
+#### 方式一：在线体验
+直接访问 GitHub Pages（如有部署）
+
+#### 方式二：本地浏览器运行
 ```bash
-# 安装依赖
+# 克隆项目
+git clone https://github.com/yangfanconan/guandan.git
+cd guandan
+
+# 安装依赖（可选）
 npm install
 
-# 启动开发服务器
+# 启动本地服务器
 npx http-server www -p 8082
 
-# 打开浏览器访问
+# 打开浏览器访问 http://localhost:8082
+```
+
+#### 方式三：Android APK
+下载 `releases/` 目录下的 APK 文件直接安装
+
+### 游戏规则
+
+#### 基本设置
+- **牌数**：两副扑克牌，共108张（含4张大小王）
+- **人数**：4人，两两结对（南-北为一队，东-西为一队）
+- **级牌**：从2开始，胜利后升级，最高到A
+
+#### 牌型说明
+| 牌型 | 描述 | 示例 |
+|------|------|------|
+| 单张 | 任意一张牌 | 3 |
+| 对子 | 两张相同点数 | 33 |
+| 三张 | 三张相同点数 | 333 |
+| 三带二 | 三张+对子 | 33344 |
+| 顺子 | 5张或以上连续单张 | 34567 |
+| 连对 | 3对或以上连续对子 | 334455 |
+| 飞机 | 连续三张+翅膀 | 33344456 |
+| 炸弹 | 4-6张相同点数 | 3333 |
+| 同花顺 | 同花色顺子 | ♥34567 |
+| 火箭 | 4个王 | 🃏🃏👑👑 |
+
+#### 牌型大小
+1. **普通牌型**：A > K > Q > ... > 3 > 2（级牌除外）
+2. **级牌**：当局级牌比A大，仅次于王
+3. **炸弹**：张数越多越大，同张数比点数
+4. **火箭**：最大，可压任何牌
+
+#### 升级规则
+| 情况 | 升级数 |
+|------|--------|
+| 双下（对手获一二名） | +3级 |
+| 单下（对手获一名一末） | +2级 |
+| 平打（各获一名） | +1级 |
+
+### 技术栈
+
+- **前端**：HTML5 Canvas + ES6+ JavaScript + CSS3
+- **音频**：Web Audio API
+- **打包**：Cordova
+- **存储**：LocalStorage
+
+### 项目结构
+```
+guandan/
+├── index.html              # 主页面
+├── css/style.css           # 样式文件
+├── js/
+│   ├── gameRules.js        # 游戏规则引擎
+│   ├── aiLogic.js          # AI出牌逻辑
+│   ├── teamLogic.js        # 组队结算逻辑
+│   ├── cardUI.js           # Canvas渲染
+│   ├── storage.js          # 本地存储
+│   ├── sound.js            # 音效管理
+│   └── main.js             # 主程序入口
+├── www/                    # Cordova Web资源
+├── config.xml              # Cordova配置
+└── releases/               # APK发布文件
+```
+
+### 浏览器支持
+
+| 浏览器 | 版本 |
+|--------|------|
+| Chrome | 80+ |
+| Firefox | 75+ |
+| Safari | 13+ |
+| Edge | 80+ |
+| Android WebView | 8.0+ |
+
+---
+
+## English
+
+### Introduction
+
+Guandan (掼蛋) is a popular Chinese card game originating from Jiangsu and Anhui provinces. It uses two standard decks of cards (108 cards total including 4 jokers) with 4 players forming 2 teams. This implementation features complete Guandan rules with AI opponents.
+
+### Screenshots
+
+> 📸 Screenshot placeholder - Game interface screenshots can be added here
+
+### Features
+
+- ✅ **Complete Rules** - All card types supported (single, pair, triple, straight, consecutive pairs, airplane, bomb, straight flush, rocket, etc.)
+- ✅ **Level System** - Automatic level progression after winning (+1/+2/+3 levels based on game result)
+- ✅ **AI Opponents** - 3 difficulty levels (Easy/Medium/Hard) with team cooperation logic
+- ✅ **Dual Themes** - Jianghuai style + Simple style
+- ✅ **Sound Effects** - Generated using Web Audio API
+- ✅ **Responsive** - Adapts to mobile and desktop browsers
+- ✅ **Offline** - Runs locally without internet
+- ✅ **Cross-Platform** - Supports Web and Android
+
+### How to Run
+
+#### Option 1: Online Demo
+Visit GitHub Pages directly (if deployed)
+
+#### Option 2: Local Browser
+```bash
+# Clone the project
+git clone https://github.com/yangfanconan/guandan.git
+cd guandan
+
+# Install dependencies (optional)
+npm install
+
+# Start local server
+npx http-server www -p 8082
+
 # Open browser at http://localhost:8082
 ```
 
-### Android APK
+#### Option 3: Android APK
+Download the APK file from `releases/` folder and install directly
 
-直接安装 `releases/guandan-v1.0-debug.apk`
+### Game Rules
 
-Install `releases/guandan-v1.0-debug.apk` directly
+#### Basic Setup
+- **Cards**: Two decks, 108 cards total (including 4 jokers)
+- **Players**: 4 players in 2 teams (North-South vs East-West)
+- **Level Card**: Starts at 2, progresses after winning, max at A
 
-### 构建APK / Build APK
+#### Card Types
+| Type | Description | Example |
+|------|-------------|---------|
+| Single | Any single card | 3 |
+| Pair | Two cards of same rank | 33 |
+| Triple | Three cards of same rank | 333 |
+| Triple+Pair | Triple + a pair | 33344 |
+| Straight | 5+ consecutive singles | 34567 |
+| Consecutive Pairs | 3+ consecutive pairs | 334455 |
+| Airplane | Consecutive triples + wings | 33344456 |
+| Bomb | 4-6 cards of same rank | 3333 |
+| Straight Flush | Same suit straight | ♥34567 |
+| Rocket | All 4 jokers | 🃏🃏👑👑 |
 
-```bash
-# 添加Android平台
-cordova platform add android@12
+#### Card Ranking
+1. **Normal Cards**: A > K > Q > ... > 3 > 2 (except level card)
+2. **Level Card**: The current level card is higher than A, only below jokers
+3. **Bomb**: More cards = higher rank; same count = compare by rank
+4. **Rocket**: Highest, beats everything
 
-# 构建APK
-cordova build android
+#### Level Progression
+| Situation | Levels Gained |
+|-----------|---------------|
+| Double Down (opponents get 1st & 2nd) | +3 |
+| Single Down (opponents get 1st & 4th) | +2 |
+| Draw (each team gets one 1st) | +1 |
 
-# APK位置
-# platforms/android/app/build/outputs/apk/debug/app-debug.apk
-```
+### Tech Stack
 
-## 游戏规则 / Game Rules
+- **Frontend**: HTML5 Canvas + ES6+ JavaScript + CSS3
+- **Audio**: Web Audio API
+- **Packaging**: Cordova
+- **Storage**: LocalStorage
 
-### 基本规则 / Basic Rules
-
-1. **牌数**：两副扑克牌，共108张（含4张大小王）
-2. **人数**：4人，两两结对（南-北 vs 东-西）
-3. **级牌**：从2开始，胜利后升级，最高到A
-4. **贡牌**：每局开始，末游向头游进贡最大的牌
-
-### 牌型 / Card Types
-
-- 单张 / Single
-- 对子 / Pair
-- 三张 / Triple
-- 三带二 / Triple with Pair
-- 顺子 / Straight (5+ consecutive)
-- 连对 / Consecutive Pairs (3+ pairs)
-- 飞机 / Airplane (2+ consecutive triples)
-- 炸弹 / Bomb (4 of a kind)
-- 同花顺 / Straight Flush
-- 火箭 / Rocket (both jokers)
-
-### 升级规则 / Level Progression
-
-- 双下（对手一二名）：升3级
-- 单下（对手一名一末）：升2级
-- 平打（各一名）：升1级
-- 过A：完成所有级别后重新开始
-
-## 技术栈 / Tech Stack
-
-- HTML5 Canvas
-- ES6+ JavaScript
-- CSS3 (CSS Variables, Flexbox)
-- Web Audio API
-- Cordova / Capacitor
-
-## 项目结构 / Project Structure
-
+### Project Structure
 ```
 guandan/
-├── index.html          # 主页面
-├── css/style.css       # 样式（双主题）
+├── index.html              # Main HTML
+├── css/style.css           # Styles
 ├── js/
-│   ├── gameRules.js    # 游戏规则
-│   ├── aiLogic.js      # AI逻辑
-│   ├── teamLogic.js    # 队伍逻辑
-│   ├── cardUI.js       # Canvas渲染
-│   ├── storage.js      # 本地存储
-│   ├── sound.js        # 音效
-│   └── main.js         # 主程序
-├── www/                # Cordova资源
-├── res/                # 图标资源
-├── config.xml          # Cordova配置
-├── package.json        # 项目配置
-└── releases/           # APK发布
+│   ├── gameRules.js        # Game rules engine
+│   ├── aiLogic.js          # AI logic
+│   ├── teamLogic.js        # Team scoring
+│   ├── cardUI.js           # Canvas rendering
+│   ├── storage.js          # Local storage
+│   ├── sound.js            # Sound manager
+│   └── main.js             # Main entry
+├── www/                    # Cordova web assets
+├── config.xml              # Cordova config
+└── releases/               # APK releases
 ```
 
-## 浏览器支持 / Browser Support
+### Browser Support
 
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Android 8.0+
+| Browser | Version |
+|---------|---------|
+| Chrome | 80+ |
+| Firefox | 75+ |
+| Safari | 13+ |
+| Edge | 80+ |
+| Android WebView | 8.0+ |
 
-## 许可证 / License
+---
 
-MIT
+## License / 许可证
+
+MIT License
+
+---
+
+## Contributing / 贡献
+
+Issues and Pull Requests are welcome!
+
+欢迎提交 Issue 和 Pull Request！
+
+---
+
+Made with ❤️ by [yangfanconan](https://github.com/yangfanconan)
