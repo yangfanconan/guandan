@@ -1,0 +1,27 @@
+{
+  "name": "guandan",
+  "version": "1.0.0",
+  "description": "掼蛋游戏 - 跨平台HTML5应用",
+  "keywords": [
+    "guandan",
+    "掼蛋",
+    "game",
+    "card-game"
+  ],
+  "license": "MIT",
+  "author": "",
+  "main": "index.html",
+  "scripts": {
+    "serve": "npx http-server -p 8082",
+    "build:android": "cordova build android",
+    "build:android:release": "cordova build android --release"
+  },
+  "devDependencies": {
+    "cordova-android": "^12.0.1"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
+  }
+}

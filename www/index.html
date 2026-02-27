@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <title>掼蛋 | Guandan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="jianghuai">
+    <div id="app">
+        <div id="game-container" class="game-container"></div>
+        
+        <header class="game-header">
+            <div class="header-left">
+                <button id="settings-btn" class="icon-btn">⚙️</button>
+            </div>
+            <div class="header-center">
+                <h1 class="game-title">掼蛋</h1>
+                <span id="jipai-display" class="jipai-display">打2</span>
+            </div>
+            <div class="header-right">
+                <button id="sound-btn" class="icon-btn active">🔊</button>
+            </div>
+        </header>
+        
+        <footer class="game-controls" id="game-controls">
+            <button id="hint-btn" class="ctrl-btn">提示</button>
+            <button id="play-btn" class="ctrl-btn primary">出牌</button>
+            <button id="pass-btn" class="ctrl-btn">不出</button>
+        </footer>
+        
+        <div id="start-modal" class="modal">
+            <div class="modal-content start-modal">
+                <h2>🃏 掼蛋</h2>
+                <p class="subtitle">江淮地区经典扑克游戏</p>
+                
+                <div class="stats-preview">
+                    <div class="stat-row">
+                        <span>总对局</span>
+                        <span id="stat-total">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>胜场</span>
+                        <span id="stat-wins">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>胜率</span>
+                        <span id="stat-winrate">0%</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>最高级别</span>
+                        <span id="stat-maxlevel">2级</span>
+                    </div>
+                </div>
+                
+                <button id="start-btn" class="start-btn">开始游戏</button>
+            </div>
+        </div>
+        
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content settings-modal">
+                <h3>设置</h3>
+                <div class="setting-item">
+                    <label>主题风格</label>
+                    <select id="theme-select">
+                        <option value="jianghuai">江淮</option>
+                        <option value="simple">简约</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>AI难度</label>
+                    <select id="difficulty-select">
+                        <option value="1">简单</option>
+                        <option value="2" selected>中等</option>
+                        <option value="3">困难</option>
+                    </select>
+                </div>
+                <button class="ctrl-btn close-settings-btn">确定</button>
+            </div>
+        </div>
+        
+        <div id="result-modal" class="modal hidden">
+            <div class="modal-content result-modal">
+                <h2 id="result-title">🎉 恭喜获胜！</h2>
+                <p id="result-info" class="result-info"></p>
+                <div class="modal-btns">
+                    <button id="play-again-btn" class="ctrl-btn primary">再来一局</button>
+                    <button id="back-menu-btn" class="ctrl-btn">返回主菜单</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="toast" class="toast hidden"></div>
+    </div>
+    
+    <script src="js/gameRules.js"></script>
+    <script src="js/aiLogic.js"></script>
+    <script src="js/teamLogic.js"></script>
+    <script src="js/cardUI.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

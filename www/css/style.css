@@ -1,0 +1,444 @@
+/**
+ * 掼蛋样式文件
+ * 支持江淮/简约双主题
+ * 稳屏优先响应式设计
+ */
+
+:root {
+    --jianghuai-bg: linear-gradient(135deg, #1a4d2e 0%, #0d3311 50%, #0a1f0a 100%);
+    --jianghuai-table: #1a5c3a;
+    --jianghuai-card-bg: #fffef5;
+    --jianghuai-text: #f5f0e6;
+    --jianghuai-accent: #c9a227;
+    --jianghuai-jipai: #ffd700;
+    
+    --simple-bg: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #1a252f 100%);
+    --simple-table: #2c3e50;
+    --simple-card-bg: #ffffff;
+    --simple-text: #2c3e50;
+    --simple-accent: #3498db;
+    --simple-jipai: #f39c12;
+    
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    transition: background var(--transition-normal);
+}
+
+body[data-theme="jianghuai"] {
+    background: var(--jianghuai-bg);
+    color: var(--jianghuai-text);
+}
+
+body[data-theme="simple"] {
+    background: var(--simple-bg);
+    color: var(--simple-text);
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.game-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+#game-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.game-header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    height: 44px;
+    z-index: 10;
+}
+
+body[data-theme="jianghuai"] .game-header {
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+body[data-theme="simple"] .game-header {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.header-left, .header-right {
+    width: 50px;
+}
+
+.header-center {
+    flex: 1;
+    text-align: center;
+}
+
+.game-title {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.jipai-display {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+body[data-theme="jianghuai"] .jipai-display {
+    color: var(--jianghuai-jipai);
+}
+
+body[data-theme="simple"] .jipai-display {
+    color: var(--simple-jipai);
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.icon-btn:not(.active) {
+    opacity: 0.5;
+}
+
+.game-controls {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    z-index: 10;
+}
+
+body[data-theme="jianghuai"] .game-controls {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+body[data-theme="simple"] .game-controls {
+    background: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.ctrl-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+}
+
+body[data-theme="jianghuai"] .ctrl-btn {
+    background: linear-gradient(to bottom, #8B4513, #5D3A1A);
+    color: #ffd700;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+body[data-theme="simple"] .ctrl-btn {
+    background: #3498db;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.ctrl-btn:hover {
+    transform: translateY(-2px);
+}
+
+.ctrl-btn:active {
+    transform: translateY(0);
+}
+
+.ctrl-btn.primary {
+    padding: 12px 28px;
+}
+
+body[data-theme="jianghuai"] .ctrl-btn.primary {
+    background: linear-gradient(to bottom, #c9a227, #a8841f);
+}
+
+body[data-theme="simple"] .ctrl-btn.primary {
+    background: #e74c3c;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(2px);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    padding: 24px;
+    border-radius: 16px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+body[data-theme="jianghuai"] .modal-content {
+    background: linear-gradient(to bottom, #f5f0e6, #e8dcc8);
+    border: 3px solid #8b6914;
+    color: #4a3728;
+}
+
+body[data-theme="simple"] .modal-content {
+    background: white;
+    border: 2px solid #3498db;
+}
+
+.start-modal h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+body[data-theme="jianghuai"] .start-modal h2 {
+    color: #8b4513;
+}
+
+.subtitle {
+    opacity: 0.7;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.stats-preview {
+    margin-bottom: 24px;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+body[data-theme="jianghuai"] .stats-preview {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body[data-theme="simple"] .stats-preview {
+    background: #f5f5f5;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.start-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+body[data-theme="jianghuai"] .start-btn {
+    background: linear-gradient(to bottom, #c9a227, #a8841f);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+body[data-theme="simple"] .start-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+.start-btn:hover {
+    transform: scale(1.02);
+}
+
+.settings-modal {
+    text-align: left;
+}
+
+.settings-modal h3 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.setting-item label {
+    font-weight: 500;
+}
+
+.setting-item select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+.close-settings-btn {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.result-modal {
+    padding: 30px;
+}
+
+.result-modal h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.result-info {
+    line-height: 1.8;
+    margin-bottom: 24px;
+    opacity: 0.8;
+}
+
+.modal-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 15px;
+    z-index: 200;
+    animation: toastIn 0.3s ease;
+    pointer-events: none;
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+body[data-theme="jianghuai"] .toast {
+    background: rgba(139, 69, 19, 0.95);
+    color: #ffd700;
+}
+
+body[data-theme="simple"] .toast {
+    background: rgba(44, 62, 80, 0.95);
+    color: white;
+}
+
+.toast.hidden {
+    display: none;
+}
+
+.bomb-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    z-index: 150;
+    animation: bombAnim 1s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes bombAnim {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+}
+
+@media screen and (max-width: 360px) {
+    .ctrl-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+    
+    .game-title {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .modal-content {
+        max-width: 400px;
+    }
+    
+    .ctrl-btn {
+        padding: 12px 24px;
+    }
+}
+
+@supports (padding: env(safe-area-inset-top)) {
+    .game-header {
+        padding-top: max(8px, env(safe-area-inset-top));
+    }
+}

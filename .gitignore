@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+platforms/
+plugins/
+
+# Gradle
+.gradle/
+build/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temp files
+*.tmp
+*.temp
+
+# APK
+*.apk
+!releases/*.apk
